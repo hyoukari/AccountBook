@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>出納帳</title>
+</head>
+
+<body>
+    <h1>ログイン後TopPage</h1>
+    <a href="index.html">ログアウト</a>
+
+    <h2>入出金</h2>
+    <p>入金しました</p>
+    <p>出金しました</p>
+
+    <h3>入金</h3>
+    <form action="" method="post">
+        金額: <input type="text" name="amount">
+        <button> * 入金する</button>
+    </form>
+
+    <h3>出金</h3>
+    <form action="" method="post">
+        <select name="" id="">
+            <option value="">飲食代</option>
+            <option value="">交通費</option>
+        </select><br>
+        金額: <input type="text" name="amount">
+        <button> * 出金する</button>
+    </form>
+
+    <h2>出納帳</h2>
+    memo:日付は降順で出力
+    <table border="1">
+        <tr>
+            <th>日付</th>
+            <th>科目</th>
+            <th>入金</th>
+            <th>出金</th>
+        </tr>
+        <tr>
+            <td>2019-05-01</td>
+            <td>映画代</td>
+            <td></td>
+            <td>￥1,800</td>
+        </tr>
+        <tr>
+            <td>2019-05-01</td>
+            <td>飲食</td>
+            <td></td>
+            <td>￥500</td>
+        </tr>
+        <tr>
+            <td>2019-04-30</td>
+            <td></td>
+            <td>￥50,000</td>
+            <td></td>
+        </tr>
+    </table>
+
+    <h2>ユーザ情報</h2>
+    <a href="user_edit.html">ユーザ情報編集</a>
+</body>
+
+</html>
