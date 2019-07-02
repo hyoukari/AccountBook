@@ -1,0 +1,15 @@
+{# ベースとなるテンプレートを継承する #}
+{% extends "layout.twig" %}
+
+{# 本体 #}
+{% block body %}
+    <h1>会員登録</h1>
+    <form action="register_fin.html" method="post">
+        お名前: <input type="text" name="name"><br>
+        ログイン用ID: <input type="text" name="id"><br>
+        email: <input type="email" name="email" id=""><br>
+        パスワード: <input type="password" name="pw" id=""><br>
+        パスワード確認: <input type="password" name="pw2" id=""><br>
+        <button>会員登録</button>
+    </form>
+{% endblock %}

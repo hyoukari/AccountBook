@@ -7,6 +7,16 @@ require_once(BASEPATH . "/Libs/Config.php");
 
 class DB
 {
+    // 外からのnewの禁止
+    protected function __construct()
+    { }
+    // clone禁止
+    protected function __clone()
+    { }
+    // unserialize禁止
+    protected function __wakeup()
+    { }
+
     public static function getHandle()
     {
         static $dbh = null;
