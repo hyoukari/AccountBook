@@ -2,6 +2,13 @@
 /*
  * 初期処理
  */
+
+// セッションの開始
+ob_start();
+session_start();
+
+
+//
 define("BASEPATH", realpath(__DIR__ . "/../"));
 //
 require_once(BASEPATH . "/vendor/autoload.php");
