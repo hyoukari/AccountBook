@@ -11,6 +11,8 @@ if (isset($_SESSION["register"])) {
     $register = [];
 }
 
+var_dump($register);
+
 //
 $template_file_name = "register.twig";
 $template_data = ["register" => $register];
