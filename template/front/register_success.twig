@@ -1,0 +1,14 @@
+{# ペースとなるテンプレートを継承する #}
+{% extends "layout.twig" %}
+
+{# 本体 #}
+{% block body %}
+    <h1>会員登録完了</h1>
+    会員登録ありがとうございました。
+    <br>
+    <form action="./register.php" method="post">
+        token:<input id="token" name="token" type="text"><br>
+        <br>
+        <button>アクティベーション</button>
+    </form>
+{% endblock %}

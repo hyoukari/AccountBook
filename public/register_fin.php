@@ -9,7 +9,7 @@ $data = [];
 foreach ($params as $p) {
     $data[$p] = (string) @$_POST[$p];
 }
-var_dump($data);
+// var_dump($data);
 
 // validate
 $error_flg = [];
@@ -90,8 +90,24 @@ if (false == $res) {
     exit;
 }
 //
-var_dump($user_id, $token);
+// var_dump($user_id, $token);
 
 // アクティベーションmailの送信
+$message = new Swift_Message();
+$message->setFrom("test@dev2.m-fr.net");
+// $message->setTo($data["email"]);
+$message->setTo("ipuvihl22v7q@sute.jp");
+$message->setSubject("AccountBook アクティベーションメール");
+$param = ["token" => $token, "name" => $data["name"]];
+$body = $twig->render("activation_mail.twig", $param);
+// var_dump($body);
+//
+$message->setBody($body);
+
+//
+$mailer = new Swift_Mailer(new Swift_SmtpTransport("localhost", 25));
+$r = $mailer->send($message);
 
 // 完了画面の出力(Location)
+// test用、一時的にコメントアウト
+header("Location: ./register_success.php");
