@@ -1,6 +1,10 @@
 <?php
 // 初期処理
 require_once(__DIR__ . "./../Libs/init.php");
+// 
+require_once(BASEPATH . "/Model/UsersModel.php");
+require_once(BASEPATH . "/Model/ActivationModel.php");
+
 
 // DBハンドルの取得
 $dbh = DB::getHandle();
@@ -13,35 +17,28 @@ $dbh->query($sql);
 $token = (string) @$_GET["token"];
 
 // DBにtokenがあるか？を確認
-$sql = "SELECT * FROM activation WHERE token=:token;";
-$pre = $dbh->prepare($sql);
-$res = $pre->execute(array(
-    ":token" => $token
-));
-$row = $pre->fetch();
-// var_dump($row);
-
-// tokenがなかったらNG
-if (empty($row)) {
+$activation = ActivationModel::find($token);
+if (empty($activation)) {
+    // XXX
     echo "ない";
+    exit;
 } else {
     // tokenがあったら
+    // XXX BEGIN
     // 対象のuser_idのemailをupdateして
-    $sql = "UPDATE users SET email=:email WHERE user_id=:user_id;";
-    $pre = $dbh->prepare($sql);
-    $res = $pre->execute(array(
-        ":email" => $row["email"],
-        ":user_id" => $row["user_id"],
-    ));
+    $user = UsersModel::find($activation->user_id);
+    $user->email = $activation->email;
+    $user->update();
+
     // tokenを削除
-    $sql = "DELETE FROM activation WHERE token=:token;";
-    $pre = $dbh->prepare($sql);
-    $res = $pre->execute(array(
-        ":token" => $token
-    ));
+    $activation->delete();
+    // XXX commit
+
+    // XXX 
     echo "アクティベーション成功";
     exit;
 }
+
 
 // 完了画面
 

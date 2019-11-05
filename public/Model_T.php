@@ -1,5 +1,5 @@
 <?php
-// exit;
+exit;
 
 //
 require_once(__DIR__ . "/../Libs/init.php");

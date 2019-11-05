@@ -2,6 +2,9 @@
 
 // 初期処理
 require_once(__DIR__ . "/../Libs/init.php");
+// 
+require_once(BASEPATH . "/Model/UsersModel.php");
+require_once(BASEPATH . "/Model/ActivationModel.php");
 
 // 入力データを取得
 $params = ["name", "email", "pw", "pw2"];
@@ -50,40 +53,28 @@ if ([] !== $error_flg) {
 $dbh = DB::getHandle();
 
 // 会員情報のinsert
-$sql = "INSERT INTO users(name, email, pw) VALUES(:name, '', :pw)";
-$pre = $dbh->prepare($sql);
-//
-$pre->bindValue(':name', $data['name'], \PDO::PARAM_STR);
-$pre->bindValue(":pw", password_hash($data["pw"], PASSWORD_DEFAULT), \PDO::PARAM_STR);
-//
-$res = $pre->execute();
+$user = new UsersModel();
+$user->name = $data["name"];
+$user->email = "";
+$user->pw = password_hash($data["pw"], PASSWORD_DEFAULT);
+// 
+$res = $user->insert();
 if (false == $res) {
     // XXX
     echo "INSERT失敗";
     exit;
 }
-
 // user_idの取得
 $user_id = $dbh->lastInsertId();
-// アクティベーションのINSERT
-$sql = "INSERT INTO activation(token, user_id, email, ttl) VALUES(:token, :user_id, :email, :ttl)";
-$pre = $dbh->prepare($sql);
-//
-$token = bin2hex(random_bytes(128));
-//
-$pre->bindValue(":token", $token, \PDO::PARAM_STR);
-$pre->bindValue(":user_id", $user_id, \PDO::PARAM_STR);
-$pre->bindValue(":email", $data["email"], \PDO::PARAM_STR);
-$pre->bindValue(":ttl", date(DATE_ATOM, time() + 10800), \PDO::PARAM_STR); // 3時間
-// $res = $pre->execute(array(
-//     ":token" => XXX,
-//     ":user_id" => $user_id,
-//     ":email" => $data["email"],
-//     ":ttl", date(DATE_ATOM, time() + 10800)
-// ));
 
+// アクティベーションのINSERT
+$actvation = new ActivationModel();
+$actvation->token = $token = bin2hex(random_bytes(128));
+$actvation->user_id = $user_id;
+$actvation->email = $data["email"];
+$actvation->ttl = date(DATE_ATOM, time() + 10000);
 //
-$res = $pre->execute();
+$res = $actvation->insert();
 if (false == $res) {
     // XXX
     echo "INSERT失敗";
@@ -96,8 +87,9 @@ if (false == $res) {
 $message = new Swift_Message();
 $message->setFrom("test@dev2.m-fr.net");
 // $message->setTo($data["email"]);
-$message->setTo("ipuvihl22v7q@sute.jp");
+$message->setTo($data["email"]);
 $message->setSubject("AccountBook アクティベーションメール");
+// bodyの作成
 $param = ["token" => $token, "name" => $data["name"]];
 $body = $twig->render("activation_mail.twig", $param);
 // var_dump($body);

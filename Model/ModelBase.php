@@ -55,10 +55,27 @@ class ModelBase
 
     public static function find($v)
     {
+        return static::findBy([static::$pk => $v]);
+    }
+    public static function findBy(array $where)
+    {
+        // DBハンドルの取得
+        $dbh = static::getDbHandle();
+
         // プリペアードステートメントの作成
         $table = static::$table;
         $sql = "SELECT * FROM {$table}";
-        $pre = static::makeWhere($sql, $v);
+        // WHERE句の生成
+        $awk = [];
+        foreach ($where as $k => $v) {
+            $awk[] = "{$k} = :{$k}";
+        }
+        $where_string = imploed(" AND ", $awk);
+        $sql .= " Where " . $where_string;
+        $pre = $dbh->prepare($sql);
+        foreach ($where as $k => $v) {
+            static::bindValue($pre, $k, $v);
+        }
 
         // SQLの実行(SELECT)
         $res = $pre->execute();
@@ -76,7 +93,6 @@ class ModelBase
         //
         return $ret;
     }
-    // public static function findBy([key => val]);
 
     public function delete()
     {
