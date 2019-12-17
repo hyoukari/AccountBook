@@ -35,7 +35,8 @@
     </form>
 
     <h2>出納帳</h2>
-    memo:日付は降順で出力
+    <a href="./top.php?y={{ before_y | e("url") }}&m={{ before_m | e("url") }}">&lt;&lt;前月</a>
+    <a href="./top.php?y={{ after_y | e("url") }}&m={{ after_m | e("url") }}">翌月&gt;&gt;</a>
     <table border="1">
         <tr>
             <th>日付</th>
