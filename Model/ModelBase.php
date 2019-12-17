@@ -70,7 +70,7 @@ class ModelBase
         foreach ($where as $k => $v) {
             $awk[] = "{$k} = :{$k}";
         }
-        $where_string = imploed(" AND ", $awk);
+        $where_string = implode(" AND ", $awk);
         $sql .= " Where " . $where_string;
         $pre = $dbh->prepare($sql);
         foreach ($where as $k => $v) {

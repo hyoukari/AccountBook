@@ -1,0 +1,12 @@
+{# laout_auth.twig #}
+
+{# ベースとなるテンプレートを継承する #}
+{% extends "layout.twig" %}
+
+{# 本体 #}
+{% block body %}
+    <a href="./logout.php"> ログアウト</a>
+    <a href="user_edit.html">ユーザー情報編集</a>
+    <hr>
+    {% block body_auth %}{% endblock %}
+{% endblock %}

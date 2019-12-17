@@ -1,0 +1,14 @@
+{# reminder_mail.twig #}
+
+{{ name }}さん、こんにちは。
+
+(パターン1: よりセキュア)
+以下のtokenを画面に入力して、アクティベーションを完了してください。
+{{ token }}
+
+(パターン2: より便利)
+以下のURLをクリックして、アクティベーションを完了してください。
+http://dev2.m-fr.net/hyoukari/AccountBook/activation.php?token={{ token }}
+
+有効期限
+{{ ttl }}

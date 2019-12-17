@@ -1,0 +1,16 @@
+{# ベースとなるテンプレートを継承する #}
+{% extends "layout.twig" %}
+
+{# 本体 #}
+{% block body %}
+	<h1>パスワードリマインダ送信済み</h1>
+
+	パスワードリマインダのmailを送りました。<br>
+	2時間経ってもメールが届いていない場合、メールアドレス入力に誤りがある事があるので、再度、パスワードリマインダを送信してください。<br>
+	<form action="./reminder_input.php" method="get">
+		token:<input type="text" name="token" id="token"><br>
+		<button>パスワード再設定</button>
+	</form>
+
+	<a href="./index.php">Topに戻る</a>
+{% endblock %}

@@ -3,8 +3,10 @@
 // 初期処理
 require_once(__DIR__ . "/../Libs/init.php");
 // 
-require_once(BASEPATH . "/Model/UsersModel.php");
+require_once(BASEPATH . "/Libs/Token.php");
 require_once(BASEPATH . "/Model/ActivationModel.php");
+require_once(BASEPATH . "/Model/UsersModel.php");
+
 
 // 入力データを取得
 $params = ["name", "email", "pw", "pw2"];
@@ -69,10 +71,10 @@ $user_id = $dbh->lastInsertId();
 
 // アクティベーションのINSERT
 $actvation = new ActivationModel();
-$actvation->token = $token = bin2hex(random_bytes(128));
+$actvation->token = $token = Token::make();
 $actvation->user_id = $user_id;
 $actvation->email = $data["email"];
-$actvation->ttl = date(DATE_ATOM, time() + 10000);
+$actvation->ttl = date(DATE_ATOM, time() + 10800);
 //
 $res = $actvation->insert();
 if (false == $res) {

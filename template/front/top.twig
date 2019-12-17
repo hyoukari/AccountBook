@@ -1,0 +1,58 @@
+{# top.twig #}
+
+{# ベースとなるテンプレートを継承する #}
+{% extends "layout_auth.twig" %}
+
+{# 本体 #}
+{% block body %}
+	<h1>ログイン後TopPage</h1>
+    <a href="index.php">ログアウト</a>
+
+    <h2>入出金</h2>
+
+    {% if deposit_success == true %}
+        <p>入金しました</p>
+    {% endif %}
+    {% if withdrawal_success == true %}
+        <p>出金しました</p>
+    {% endif %}
+
+
+    <h3>入金</h3>
+    <form action="./deposit.php" method="post">
+        金額: <input type="text" name="amount">
+        <button> * 入金する</button>
+    </form>
+
+    <h3>出金</h3>
+    <form action="./withdrawal.php" method="post">
+        <select name="account_title" id="account_title">
+            <option value="飲食代">飲食代</option>
+            <option value="交通費">交通費</option>
+        </select><br>
+        金額: <input type="text" name="amount">
+        <button> * 出金する</button>
+    </form>
+
+    <h2>出納帳</h2>
+    memo:日付は降順で出力
+    <table border="1">
+        <tr>
+            <th>日付</th>
+            <th>科目</th>
+            <th>入金</th>
+            <th>出金</th>
+        </tr>
+        {% for datum in list %}
+        <tr>
+            <td>{{ datum.created_at | date("Y-m-d") }}</td>
+            <td>{{ datum.withdrawal_account_title }}</td>
+            <td>{% if datum.deposit_amount != 0 %}{{ datum.deposit_amount }}{% endif %}</td>
+            <td>{% if datum.withdrawal_amount != 0 %}{{ datum.withdrawal_amount }}{% endif %}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>ユーザ情報</h2>
+    <a href="user_edit.html">ユーザ情報編集</a>
+{% endblock %}

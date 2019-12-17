@@ -1,0 +1,13 @@
+{# ベースとなるテンプレートを継承する #}
+{% extends "layout.twig" %}
+
+{# 本体 #}
+{% block body %}
+	<h1>パスワードリマインダ</h1>
+	登録してあるemailアドレスを入力してください<br>
+
+	<form action="./reminder_send.php" method="post">
+		emailアドレス:<input type="email" name="email" id=""><br>
+		<button>パスワードリマインダのメールを送信</button>
+	</form>
+{% endblock %}
